@@ -29,25 +29,19 @@ public class SettingFragment extends PreferenceFragment {
 
     private void setupEditTextPreferenceSummary(CharSequence key) {
         final EditTextPreference pref = (EditTextPreference) getPreferenceManager().findPreference(key);
-        pref.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    pref.onClick(pref.getDialog(), Dialog.BUTTON_POSITIVE);
-                    pref.getDialog().dismiss();
-                    handled = true;
-                }
-                return handled;
+        pref.getEditText().setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                pref.onClick(pref.getDialog(), Dialog.BUTTON_POSITIVE);
+                pref.getDialog().dismiss();
+                handled = true;
             }
+            return handled;
         });
         pref.setSummary(pref.getText());
-        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                preference.setSummary(newValue.toString());
-                return true;
-            }
+        pref.setOnPreferenceChangeListener((preference, newValue) -> {
+            preference.setSummary(newValue.toString());
+            return true;
         });
     }
 }

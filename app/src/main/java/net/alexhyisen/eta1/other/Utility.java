@@ -17,16 +17,13 @@ import net.alexhyisen.eta1.R;
 
 public class Utility {
     public static void setupEditText(EditText orig, final int IME_ACTION, final MyCallback<TextView> handler) {
-        orig.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == IME_ACTION) {
-                    handler.accept(v);
-                    handled = true;
-                }
-                return handled;
+        orig.setOnEditorActionListener((v,actionID,event)->{
+            boolean handled = false;
+            if (actionID == IME_ACTION) {
+                handler.accept(v);
+                handled = true;
             }
+            return handled;
         });
     }
 

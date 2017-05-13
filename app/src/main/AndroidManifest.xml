@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     package="net.alexhyisen.eta1">
 
     <uses-feature android:name="android.hardware.location.gps" />
@@ -16,7 +16,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning"
+        android:fullBackupContent="@xml/backup_rules">
         <activity
             android:name=".handshake_with_location.MainActivity"
             android:label="@string/app_name">
@@ -30,21 +32,11 @@
             android:name=".setting.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".handshake_with_location.MainActivity">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".handshake_with_location.MainActivity" />
         </activity>
         <activity
             android:name=".telnet.TelnetActivity"
             android:label="@string/title_activity_telnet"
             android:parentActivityName=".handshake_with_location.MainActivity">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".handshake_with_location.MainActivity" />
         </activity>
     </application>
 

@@ -104,19 +104,9 @@ public class MainActivity extends AppCompatActivity implements MyCallback<String
         inputEditText = (EditText) findViewById(R.id.inputEditText);
         Switch locationSwitch = (Switch) findViewById(R.id.locationSwitch);
 
-        Utility.setupEditText(inputEditText, EditorInfo.IME_ACTION_SEND, new MyCallback<TextView>() {
-            @Override
-            public void accept(TextView data) {
-                handleSendButtonAction(data);
-            }
-        });
+        Utility.setupEditText(inputEditText, EditorInfo.IME_ACTION_SEND, this::handleSendButtonAction);
 
-        locationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setLocationAutoUpdate(isChecked);
-            }
-        });
+        locationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> setLocationAutoUpdate(isChecked));
 
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 

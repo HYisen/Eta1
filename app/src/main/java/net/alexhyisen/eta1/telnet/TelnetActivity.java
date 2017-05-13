@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,25 +55,16 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
         inputHostEditText.setText(sp.getString("pref_host", "error_host"));
         inputPortEditText.setText(sp.getString("pref_port","-1"));
 
-        //Now, I am missing the lambda in Java 8 to trim such redundant code.
-        //I will simplify it once I have a Android N device.
-        Utility.setupEditText(inputEditText, EditorInfo.IME_ACTION_SEND, new MyCallback<TextView>() {
-            @Override
-            public void accept(TextView data) {
-                handleSendButtonAction(data);
-            }
-        });
-
-        connectToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    String host = inputHostEditText.getText().toString();
-                    int port = Integer.valueOf(inputPortEditText.getText().toString());
-                    client.link(host, port);
-                } else {
-                    client.shutdown();
-                }
+        Utility.setupEditText(inputEditText, EditorInfo.IME_ACTION_SEND, this::handleSendButtonAction);
+        connectToggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                System.out.println("button on");
+                String host = inputHostEditText.getText().toString();
+                int port = Integer.valueOf(inputPortEditText.getText().toString());
+                client.link(host, port);
+            } else {
+                System.out.println("button off");
+                client.shutdown();
             }
         });
 
@@ -81,12 +73,7 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
         msgListView.setAdapter(adapter);
 
 
-        client = new TelnetClient(new MyCallback<Pair<MsgType, String>>() {
-            @Override
-            public void accept(Pair<MsgType, String> data) {
-                pushMsg(new Message(data.first, data.second));
-            }
-        });
+        client = new TelnetClient(data -> pushMsg(new Message(data.first, data.second)));
     }
 
     @Override

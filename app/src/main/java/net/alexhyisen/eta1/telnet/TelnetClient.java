@@ -24,7 +24,7 @@ class TelnetClient {
     private Socket socket;
     private PrintWriter out;
 
-    AsyncTask<Void, String, IOException> listenTask;
+    private AsyncTask<Void, String, IOException> listenTask;
 
     TelnetClient(MyCallback<Pair<MsgType, String>> handler) {
         this.handler = handler;
@@ -75,6 +75,7 @@ class TelnetClient {
     //It will automatically start listening once the link is established,
     //through which the order problem (listen() should after async link()) is overcome.
     private void listen() {
+        System.out.println("launch listen task");
         listenTask = new AsyncTask<Void, String, IOException>() {
             @Override
             protected IOException doInBackground(Void... params) {
@@ -120,7 +121,7 @@ class TelnetClient {
                 super.onCancelled();
             }
         };
-        //the listen task will last for a quite long time and thus thus should run in a parallel pool.
+        //the listen task will last for a quite long time (blocking) and thus should run in a parallel pool.
         listenTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
