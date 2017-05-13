@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.alexhyisen.eta1.telnet.TelnetActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hostLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1"
+            android:labelFor="@+id/inputHostEditText"
+            android:text="@string/host"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/inputHostEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/portLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1"
+            android:labelFor="@+id/inputPortEditText"
+            android:text="@string/port"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/inputPortEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <ToggleButton
+            android:id="@+id/connectToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:checked="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/inputEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".8"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:textAlignment="center"
+            tools:ignore="LabelFor"
+            tools:text="@string/inputTextView_tip" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:onClick="handleSendButtonAction"
+            android:text="@string/sendButton_text" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/msgListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+</LinearLayout>
