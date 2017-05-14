@@ -5,6 +5,7 @@ package net.alexhyisen.eta1.other;
  * Consumer<T> in Java 8
  */
 
+@FunctionalInterface
 public interface MyCallback<T> {
     void accept(T data);
 }

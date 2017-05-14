@@ -33,6 +33,7 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
     private EditText inputHostEditText;
     private EditText inputPortEditText;
     private EditText inputEditText;
+    private ToggleButton connectToggleButton;
 
     private TelnetClient client;
     private List<Message> messages=new ArrayList<>();
@@ -48,7 +49,7 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
         inputHostEditText = (EditText) findViewById(R.id.inputHostEditText);
         inputPortEditText = (EditText) findViewById(R.id.inputPortEditText);
         inputEditText = (EditText) findViewById(R.id.inputEditText);
-        ToggleButton connectToggleButton = (ToggleButton) findViewById(R.id.connectToggleButton);
+        connectToggleButton = (ToggleButton) findViewById(R.id.connectToggleButton);
         ListView msgListView = (ListView) findViewById(R.id.msgListView);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -73,7 +74,7 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
         msgListView.setAdapter(adapter);
 
 
-        client = new TelnetClient(data -> pushMsg(new Message(data.first, data.second)));
+        client = new TelnetClient(data -> handleMsg(new Message(data.first, data.second)));
     }
 
     @Override
@@ -98,6 +99,14 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
         System.out.println("push "+msg.getType()+" msg "+msg.getContent());
         messages.add(0,msg);
         adapter.notifyDataSetChanged();
+    }
+
+    private void handleMsg(Message msg) {
+        if ((msg.getType() == MsgType.INFO && msg.getContent().equals("listening finished")) ||
+                (msg.getType() == MsgType.ERROR && msg.getContent().startsWith("exception while listening"))) {
+            connectToggleButton.setChecked(false);
+        }
+        pushMsg(msg);
     }
 
     @Override
