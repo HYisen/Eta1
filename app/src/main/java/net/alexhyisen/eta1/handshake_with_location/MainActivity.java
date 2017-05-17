@@ -18,17 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import net.alexhyisen.eta1.other.MyCallback;
 import net.alexhyisen.eta1.R;
-import net.alexhyisen.eta1.setting.SettingsActivity;
-import net.alexhyisen.eta1.telnet.TelnetActivity;
+import net.alexhyisen.eta1.other.MyCallback;
 import net.alexhyisen.eta1.other.ToolbarOwner;
 import net.alexhyisen.eta1.other.Utility;
+import net.alexhyisen.eta1.setting.SettingsActivity;
+import net.alexhyisen.eta1.telnet.TelnetActivity;
 
 import java.util.Calendar;
 

@@ -3,8 +3,8 @@ package net.alexhyisen.eta1.telnet;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import net.alexhyisen.eta1.other.msg.MsgType;
 import net.alexhyisen.eta1.other.MyCallback;
+import net.alexhyisen.eta1.other.msg.MsgType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.net.SocketException;
  * A session module, rather than the handshake one.
  */
 
-class TelnetClient {
+class TelnetClient implements Client {
     private final MyCallback<Pair<MsgType, String>> handler;
 
     private Socket socket;
@@ -30,7 +30,8 @@ class TelnetClient {
         this.handler = handler;
     }
 
-    void send(final String content) {
+    @Override
+    public void send(final String content) {
         AsyncTask<String, Void, Void> sendTask = new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... params) {
@@ -42,7 +43,8 @@ class TelnetClient {
         sendTask.execute(content);
     }
 
-    void link(final String host, final int port) {
+    @Override
+    public void link(final String host, final int port) {
         AsyncTask<Void, Void, IOException> linkTask = new AsyncTask<Void, Void, IOException>() {
             @Override
             protected IOException doInBackground(Void... params) {
@@ -86,11 +88,11 @@ class TelnetClient {
                         publishProgress(line);
                     }
                 } catch (SocketException e) {
-                    if(e.toString().equals("java.net.SocketException: Socket closed")){
+                    if (e.toString().equals("java.net.SocketException: Socket closed")) {
                         //that's what will happen when task.cancel() is called.
                         System.out.println("listening is stopped as socket is closed");
                         return null;
-                    }else{
+                    } else {
                         e.printStackTrace();
                         return e;
                     }
@@ -125,7 +127,8 @@ class TelnetClient {
         listenTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    void shutdown() {
+    @Override
+    public void shutdown() {
         if (socket != null) {
             listenTask.cancel(true);
             AsyncTask<Void, Void, IOException> shutdownTask = new AsyncTask<Void, Void, IOException>() {

@@ -1,30 +1,25 @@
 package net.alexhyisen.eta1.telnet;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import net.alexhyisen.eta1.R;
+import net.alexhyisen.eta1.other.ToolbarOwner;
+import net.alexhyisen.eta1.other.Utility;
 import net.alexhyisen.eta1.other.msg.Message;
 import net.alexhyisen.eta1.other.msg.MessageArrayAdapter;
 import net.alexhyisen.eta1.other.msg.MsgType;
-import net.alexhyisen.eta1.other.ToolbarOwner;
-import net.alexhyisen.eta1.other.Utility;
-import net.alexhyisen.eta1.other.MyCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +30,7 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
     private EditText inputEditText;
     private ToggleButton connectToggleButton;
 
-    private TelnetClient client;
+    private Client client;
     private List<Message> messages=new ArrayList<>();
     ArrayAdapter<Message> adapter;
 

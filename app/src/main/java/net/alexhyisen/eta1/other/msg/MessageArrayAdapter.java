@@ -53,19 +53,19 @@ public class MessageArrayAdapter extends ArrayAdapter<Message> {
             case INFO:
                 typeText.setText(R.string.msg_type_info);
                 //mContext.getColor() is what I want, but it need API 23.
-                typeText.setTextColor(mContext.getResources().getColor(R.color.colorMsgInfo));
+                typeText.setTextColor(mContext.getColor(R.color.colorMsgInfo));
                 break;
             case ERROR:
                 typeText.setText(R.string.msg_type_error);
-                typeText.setTextColor(mContext.getResources().getColor(R.color.colorMsgError));
+                typeText.setTextColor(mContext.getColor(R.color.colorMsgError));
                 break;
             case SERVER:
                 typeText.setText(R.string.msg_type_server);
-                typeText.setTextColor(mContext.getResources().getColor(R.color.colorMsgServer));
+                typeText.setTextColor(mContext.getColor(R.color.colorMsgServer));
                 break;
             case CLIENT:
                 typeText.setText(R.string.msg_type_client);
-                typeText.setTextColor(mContext.getResources().getColor(R.color.colorMsgClient));
+                typeText.setTextColor(mContext.getColor(R.color.colorMsgClient));
                 break;
             default:
                 typeText.setText(R.string.msg_type_undefined);

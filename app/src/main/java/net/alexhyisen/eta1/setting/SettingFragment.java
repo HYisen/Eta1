@@ -3,12 +3,9 @@ package net.alexhyisen.eta1.setting;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 
 import net.alexhyisen.eta1.R;
 
