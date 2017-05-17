@@ -85,8 +85,13 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
 
     public void handleSendButtonAction(View view) {
         Editable text = inputEditText.getText();
-        pushMsg(new Message(MsgType.CLIENT,text.toString()));
-        client.send(text.toString());
+        if ("WebSocket".equals(text.toString())) {
+            pushMsg(new Message(MsgType.INFO, "switched to WebSocket mode"));
+            client = new WebSocketClient(data -> handleMsg(new Message(data.first, data.second)));
+        } else {
+            pushMsg(new Message(MsgType.CLIENT,text.toString()));
+            client.send(text.toString());
+        }
         text.clear();
     }
 

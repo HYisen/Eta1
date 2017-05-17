@@ -19,7 +19,7 @@ import java.net.SocketException;
  */
 
 class TelnetClient implements Client {
-    private final MyCallback<Pair<MsgType, String>> handler;
+    private MyCallback<Pair<MsgType, String>> handler;
 
     private Socket socket;
     private PrintWriter out;
@@ -27,6 +27,11 @@ class TelnetClient implements Client {
     private AsyncTask<Void, String, IOException> listenTask;
 
     TelnetClient(MyCallback<Pair<MsgType, String>> handler) {
+        setHandler(handler);
+    }
+
+    @Override
+    public void setHandler(MyCallback<Pair<MsgType, String>> handler) {
         this.handler = handler;
     }
 

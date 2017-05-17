@@ -39,8 +39,9 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    // https://mvnrepository.com/artifact/io.netty/netty-all
-    compile group: 'io.netty', name: 'netty-all', version: '4.1.11.Final'
+    // https://mvnrepository.com/artifact/com.neovisionaries/nv-websocket-client
+    compile group: 'com.neovisionaries', name: 'nv-websocket-client', version: '2.2'
+
 
     testCompile 'junit:junit:4.12'
 }
