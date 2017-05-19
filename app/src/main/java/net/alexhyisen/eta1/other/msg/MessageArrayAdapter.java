@@ -18,14 +18,14 @@ import java.util.List;
  * Adapter used for a better ListView of Messages.
  */
 
-public class MessageArrayAdapter extends ArrayAdapter<Message> {
+class MessageArrayAdapter extends ArrayAdapter<Message> {
     private final LayoutInflater mInflater;
     private final Context mContext;
     //Here, must be bind to the correct layout resource that fits createViewFromResource().
     private static final int mResource= R.layout.list_item;
 
 
-    public MessageArrayAdapter(@NonNull Context context, @NonNull List<Message> objects) {
+    MessageArrayAdapter(@NonNull Context context, @NonNull List<Message> objects) {
         super(context, mResource, objects);
         mContext = context;
         mInflater = LayoutInflater.from(context);

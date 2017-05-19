@@ -9,20 +9,15 @@ import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import net.alexhyisen.eta1.R;
 import net.alexhyisen.eta1.other.ToolbarOwner;
 import net.alexhyisen.eta1.other.Utility;
 import net.alexhyisen.eta1.other.msg.Message;
-import net.alexhyisen.eta1.other.msg.MessageArrayAdapter;
+import net.alexhyisen.eta1.other.msg.MessageFragment;
 import net.alexhyisen.eta1.other.msg.MsgType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
     private EditText inputHostEditText;
@@ -30,9 +25,9 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
     private EditText inputEditText;
     private ToggleButton connectToggleButton;
 
+    private MessageFragment msgList;
+
     private Client client;
-    private List<Message> messages=new ArrayList<>();
-    ArrayAdapter<Message> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +40,8 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
         inputPortEditText = (EditText) findViewById(R.id.inputPortEditText);
         inputEditText = (EditText) findViewById(R.id.inputEditText);
         connectToggleButton = (ToggleButton) findViewById(R.id.connectToggleButton);
-        ListView msgListView = (ListView) findViewById(R.id.msgListView);
+
+        msgList = (MessageFragment) getFragmentManager().findFragmentById(R.id.msgList);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         inputHostEditText.setText(sp.getString("pref_host", "error_host"));
@@ -63,11 +59,6 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
                 client.shutdown();
             }
         });
-
-        adapter = new MessageArrayAdapter(this, messages);
-        adapter.setNotifyOnChange(true);//additional safety guarantee, on default true
-        msgListView.setAdapter(adapter);
-
 
         client = new TelnetClient(data -> handleMsg(new Message(data.first, data.second)));
     }
@@ -96,9 +87,7 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
     }
 
     private void pushMsg(Message msg) {
-        System.out.println("push "+msg.getType()+" msg "+msg.getContent());
-        messages.add(0,msg);
-        adapter.notifyDataSetChanged();
+        msgList.pushMsg(msg);
     }
 
     private void handleMsg(Message msg) {

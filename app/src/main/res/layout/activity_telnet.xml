@@ -84,11 +84,9 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/msgListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+    <fragment android:name="net.alexhyisen.eta1.other.msg.MessageFragment"
+        android:id="@+id/msgList"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
