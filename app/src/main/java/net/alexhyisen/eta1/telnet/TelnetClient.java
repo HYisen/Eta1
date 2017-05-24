@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 
 import net.alexhyisen.eta1.other.MyCallback;
+import net.alexhyisen.eta1.other.msg.Message;
 import net.alexhyisen.eta1.other.msg.MsgType;
 
 import java.io.BufferedReader;
@@ -19,19 +20,19 @@ import java.net.SocketException;
  */
 
 class TelnetClient implements Client {
-    private MyCallback<Pair<MsgType, String>> handler;
+    private MyCallback<Message> handler;
 
     private Socket socket;
     private PrintWriter out;
 
     private AsyncTask<Void, String, IOException> listenTask;
 
-    TelnetClient(MyCallback<Pair<MsgType, String>> handler) {
+    TelnetClient(MyCallback<Message> handler) {
         setHandler(handler);
     }
 
     @Override
-    public void setHandler(MyCallback<Pair<MsgType, String>> handler) {
+    public void setHandler(MyCallback<Message> handler) {
         this.handler = handler;
     }
 
@@ -67,10 +68,10 @@ class TelnetClient implements Client {
             @Override
             protected void onPostExecute(IOException e) {
                 if (e == null) {
-                    handler.accept(new Pair<>(MsgType.INFO, "link " + host + ":" + port));
+                    handler.accept(new Message(MsgType.INFO, "link " + host + ":" + port));
                     listen();
                 } else {
-                    handler.accept(new Pair<>(MsgType.ERROR,
+                    handler.accept(new Message(MsgType.ERROR,
                             "failed to link " + host + ":" + port + "\n" + e.toString()));
                 }
             }
@@ -110,15 +111,15 @@ class TelnetClient implements Client {
 
             @Override
             protected void onProgressUpdate(String... values) {
-                handler.accept(new Pair<>(MsgType.SERVER, values[0]));
+                handler.accept(new Message(MsgType.SERVER, values[0]));
             }
 
             @Override
             protected void onPostExecute(IOException e) {
                 if (e == null) {
-                    handler.accept(new Pair<>(MsgType.INFO, "listening finished"));
+                    handler.accept(new Message(MsgType.INFO, "listening finished"));
                 } else {
-                    handler.accept(new Pair<>(MsgType.ERROR,
+                    handler.accept(new Message(MsgType.ERROR,
                             "exception while listening" + "\n" + e.toString()));
                 }
             }
@@ -151,10 +152,10 @@ class TelnetClient implements Client {
                 @Override
                 protected void onPostExecute(IOException e) {
                     if (e == null) {
-                        handler.accept(new Pair<>(MsgType.INFO,
+                        handler.accept(new Message(MsgType.INFO,
                                 "client has been shutdown"));
                     } else {
-                        handler.accept(new Pair<>(MsgType.ERROR,
+                        handler.accept(new Message(MsgType.ERROR,
                                 "failed to shutdown client" + "\n" + e.toString()));
                     }
                 }

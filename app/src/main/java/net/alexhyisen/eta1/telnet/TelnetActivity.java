@@ -62,10 +62,10 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
 
         switch (sp.getString("pref_telnetMode", "None")) {
             case "Socket":
-                client = new TelnetClient(data -> handleMsg(new Message(data.first, data.second)));
+                client = new TelnetClient(this::handleMsg);
                 break;
             case "WebSocket":
-                client = new WebSocketClient(data -> handleMsg(new Message(data.first, data.second)));
+                client = new WebSocketClient(this::handleMsg);
                 pushMsg(new Message(MsgType.INFO, "WebSocket Mode"));
                 break;
             default:

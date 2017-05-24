@@ -1,14 +1,15 @@
 package net.alexhyisen.eta1.telnet;
 
 import android.os.AsyncTask;
-import android.util.Pair;
 
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.WebSocketFrame;
 
 import net.alexhyisen.eta1.other.MyCallback;
+import net.alexhyisen.eta1.other.msg.Message;
 import net.alexhyisen.eta1.other.msg.MsgType;
 
 import java.io.IOException;
@@ -19,17 +20,17 @@ import java.io.IOException;
  * sth uses WebSocket with the help of nv-websocket-client to communicate with the server.
  */
 
-public class WebSocketClient implements Client{
-    private MyCallback<Pair<MsgType, String>> handler;
+class WebSocketClient implements Client{
+    private MyCallback<Message> handler;
 
     private WebSocket ws;
 
-    public WebSocketClient(MyCallback<Pair<MsgType, String>> handler) {
+    WebSocketClient(MyCallback<Message> handler) {
         setHandler(handler);
     }
 
     @Override
-    public void setHandler(MyCallback<Pair<MsgType, String>> handler) {
+    public void setHandler(MyCallback<Message> handler) {
         this.handler = handler;
     }
 
@@ -49,19 +50,19 @@ public class WebSocketClient implements Client{
                     ws.addListener(new WebSocketAdapter() {
                         @Override
                         public void onTextMessage(WebSocket websocket, String text) throws Exception {
-                            //There must be a better way.
-                            new AsyncTask<String, Void, String>() {
-                                @Override
-                                protected String doInBackground(String... params) {
-                                    return params[0];
-                                }
-
-                                @Override
-                                protected void onPostExecute(String s) {
-                                    handler.accept(new Pair<>(MsgType.SERVER, s));
-                                }
-                            }.execute(text);
+                            callback(new Message(MsgType.SERVER,text));
                         }
+
+                        @Override
+                        public void onPingFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                            callback(new Message(MsgType.INFO,"receive PingFrame"));
+                        }
+
+                        @Override
+                        public void onPongFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+                            callback(new Message(MsgType.INFO,"receive PongFrame"));
+                        }
+
                     });
                     ws.connect();
                 } catch (IOException | WebSocketException e) {
@@ -74,9 +75,9 @@ public class WebSocketClient implements Client{
             @Override
             protected void onPostExecute(Exception e) {
                 if (e == null) {
-                    handler.accept(new Pair<>(MsgType.INFO, "link " + host + ":" + port));
+                    handler.accept(new Message(MsgType.INFO, "link " + host + ":" + port));
                 } else {
-                    handler.accept(new Pair<>(MsgType.ERROR,
+                    handler.accept(new Message(MsgType.ERROR,
                             "failed to link " + host + ":" + port + "\n" + e.toString()));
                 }
             }
@@ -96,10 +97,25 @@ public class WebSocketClient implements Client{
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                handler.accept(new Pair<>(MsgType.INFO,
+                handler.accept(new Message(MsgType.INFO,
                         "client has been shutdown"));
             }
         };
         shutdownTask.execute();
+    }
+
+    private void callback(Message data) {
+        //There must be a better way.
+        new AsyncTask<Message, Void, Message>() {
+            @Override
+            protected Message doInBackground(Message... params) {
+                return params[0];
+            }
+
+            @Override
+            protected void onPostExecute(Message msg) {
+                handler.accept(msg);
+            }
+        }.execute(data);
     }
 }
