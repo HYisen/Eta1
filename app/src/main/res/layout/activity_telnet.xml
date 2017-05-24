@@ -86,7 +86,7 @@
 
     <fragment android:name="net.alexhyisen.eta1.other.msg.MessageFragment"
         android:id="@+id/msgList"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 </LinearLayout>
