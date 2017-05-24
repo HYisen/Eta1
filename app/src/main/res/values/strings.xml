@@ -94,4 +94,6 @@
     <string name="msg_type_error">ERROR</string>
     <string name="msg_type_info">INFO</string>
     <string name="no_data">No data</string>
+    <string name="pref_telnetMode">Telnet mode</string>
+    <string name="pref_telnetMode_default">Socket</string>
 </resources>

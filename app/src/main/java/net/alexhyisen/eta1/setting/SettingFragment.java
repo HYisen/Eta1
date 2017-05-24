@@ -3,6 +3,8 @@ package net.alexhyisen.eta1.setting;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.view.inputmethod.EditorInfo;
@@ -22,6 +24,7 @@ public class SettingFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preference);
         setupEditTextPreferenceSummary("pref_host");
         setupEditTextPreferenceSummary("pref_port");
+        setupListPreferenceSummary("pref_telnetMode");
     }
 
     private void setupEditTextPreferenceSummary(CharSequence key) {
@@ -40,5 +43,15 @@ public class SettingFragment extends PreferenceFragment {
             preference.setSummary(newValue.toString());
             return true;
         });
+    }
+
+    private void setupListPreferenceSummary(CharSequence key) {
+        final ListPreference pref = (ListPreference) getPreferenceManager().findPreference(key);
+        Preference.OnPreferenceChangeListener listener=(preference, newValue) -> {
+            preference.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
+            return true;
+        };
+        listener.onPreferenceChange(pref, pref.getValue());
+        pref.setOnPreferenceChangeListener(listener);
     }
 }

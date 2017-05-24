@@ -60,7 +60,17 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
             }
         });
 
-        client = new TelnetClient(data -> handleMsg(new Message(data.first, data.second)));
+        switch (sp.getString("pref_telnetMode", "None")) {
+            case "Socket":
+                client = new TelnetClient(data -> handleMsg(new Message(data.first, data.second)));
+                break;
+            case "WebSocket":
+                client = new WebSocketClient(data -> handleMsg(new Message(data.first, data.second)));
+                pushMsg(new Message(MsgType.INFO, "WebSocket Mode"));
+                break;
+            default:
+                pushMsg(new Message(MsgType.ERROR, "bad mode pref"));
+        }
     }
 
     @Override
@@ -76,13 +86,8 @@ public class TelnetActivity extends AppCompatActivity implements ToolbarOwner {
 
     public void handleSendButtonAction(View view) {
         Editable text = inputEditText.getText();
-        if ("WebSocket".equals(text.toString())) {
-            pushMsg(new Message(MsgType.INFO, "switched to WebSocket mode"));
-            client = new WebSocketClient(data -> handleMsg(new Message(data.first, data.second)));
-        } else {
-            pushMsg(new Message(MsgType.CLIENT,text.toString()));
-            client.send(text.toString());
-        }
+        pushMsg(new Message(MsgType.CLIENT,text.toString()));
+        client.send(text.toString());
         text.clear();
     }
 

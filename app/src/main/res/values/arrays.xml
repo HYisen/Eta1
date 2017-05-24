@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_telnetMode_entries">
+        <item>Socket</item>
+        <item>WebSocket</item>
+    </string-array>
+    <string-array name="pref_telnetMode_values">
+        <item>Socket</item>
+        <item>WebSocket</item>
+    </string-array>
+</resources>

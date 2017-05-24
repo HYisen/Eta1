@@ -18,4 +18,11 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Port number" />
+    <ListPreference
+        android:key="pref_telnetMode"
+        android:title="@string/pref_telnetMode"
+        android:dialogTitle="@string/pref_telnetMode"
+        android:entries="@array/pref_telnetMode_entries"
+        android:entryValues="@array/pref_telnetMode_values"
+        android:defaultValue="@string/pref_telnetMode_default" />
 </PreferenceScreen>
