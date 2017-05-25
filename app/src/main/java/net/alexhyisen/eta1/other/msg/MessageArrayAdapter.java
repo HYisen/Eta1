@@ -1,7 +1,9 @@
 package net.alexhyisen.eta1.other.msg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +72,38 @@ class MessageArrayAdapter extends RecyclerView.Adapter<MessageArrayAdapter.Messa
 
         holder.timeText.setText(data.get(position).getTime());
 
-        holder.contentText.setText(data.get(position).getContent());
+
+        //If there are multiple lines, only show the first line.
+        String content = data.get(position).getContent();
+        holder.itemView.setClickable(false);
+        holder.itemView.setLongClickable(false);
+        int i = content.indexOf('\n');
+        if (i != -1) {
+            content = content.substring(0, i);
+            //setLongClickable(true); ? No, that will be done automatically.
+            holder.itemView.setOnLongClickListener(v -> {
+                Log.d("click", "clicked " + holder.contentText);
+
+                Intent textIntent = new Intent();
+                //Definitely the action should not be SEND,
+                //as the text is expected to be viewed rather than sent,
+                //but what's the better solution?
+                //Anyway, once the catcher in the app is completed and a explicit call is used,
+                //that would no longer be a problem.
+                textIntent.setAction(Intent.ACTION_SEND);
+                textIntent.putExtra(Intent.EXTRA_TEXT, data.get(position).getContent());
+                textIntent.setType("text/plain");
+
+                if (textIntent.resolveActivity(mContext.getPackageManager()) != null) {
+                    mContext.startActivity(textIntent);
+                } else {
+                    Log.d("click", "No one catch the text Intent.");
+                }
+
+                return true;
+            });
+        }
+        holder.contentText.setText(content);
     }
 
     @Override
