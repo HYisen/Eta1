@@ -12,13 +12,13 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:fullBackupContent="@xml/backup_rules">
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".handshake_with_location.MainActivity"
             android:label="@string/app_name">
@@ -31,13 +31,12 @@
         <activity
             android:name=".setting.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".handshake_with_location.MainActivity">
-        </activity>
+            android:parentActivityName=".handshake_with_location.MainActivity" />
         <activity
             android:name=".telnet.TelnetActivity"
             android:label="@string/title_activity_telnet"
-            android:parentActivityName=".handshake_with_location.MainActivity">
-        </activity>
+            android:parentActivityName=".handshake_with_location.MainActivity" />
+        <activity android:name=".other.TextActivity" />
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.alexhyisen.eta1.R;
+import net.alexhyisen.eta1.other.TextActivity;
 
 import java.util.List;
 
@@ -79,29 +80,22 @@ class MessageArrayAdapter extends RecyclerView.Adapter<MessageArrayAdapter.Messa
         holder.itemView.setLongClickable(false);
         int i = content.indexOf('\n');
         if (i != -1) {
-            content = content.substring(0, i);
             //setLongClickable(true); ? No, that will be done automatically.
             holder.itemView.setOnLongClickListener(v -> {
-                Log.d("click", "clicked " + holder.contentText);
+                //Log.d("click", "clicked " + holder.contentText);
 
-                Intent textIntent = new Intent();
-                //Definitely the action should not be SEND,
-                //as the text is expected to be viewed rather than sent,
-                //but what's the better solution?
-                //Anyway, once the catcher in the app is completed and a explicit call is used,
-                //that would no longer be a problem.
-                textIntent.setAction(Intent.ACTION_SEND);
-                textIntent.putExtra(Intent.EXTRA_TEXT, data.get(position).getContent());
-                textIntent.setType("text/plain");
-
-                if (textIntent.resolveActivity(mContext.getPackageManager()) != null) {
-                    mContext.startActivity(textIntent);
-                } else {
-                    Log.d("click", "No one catch the text Intent.");
-                }
+                Intent intent = new Intent(mContext, TextActivity.class);
+                intent.setAction(Intent.ACTION_VIEW);
+                //To ease the burden to recreate intent data name, reuse the exists ones,
+                //notice that their original meaning is overridden to the literal ones.
+                intent.putExtra(Intent.EXTRA_TITLE, data.get(position).getContent().substring(0, i));
+                intent.putExtra(Intent.EXTRA_TEXT, data.get(position).getContent().substring(i+1));
+                intent.setType("text/plain");
+                mContext.startActivity(intent);
 
                 return true;
             });
+            content = content.substring(0, i);
         }
         holder.contentText.setText(content);
     }

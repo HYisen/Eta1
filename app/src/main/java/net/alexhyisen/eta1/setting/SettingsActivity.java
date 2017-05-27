@@ -41,6 +41,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Too
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                //Should I override the original meaning of UpButton, which is back to its parent?
+                //There should be no exact parent activity of this view activity,
+                //as its only usage is to show the view and then return back.
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:

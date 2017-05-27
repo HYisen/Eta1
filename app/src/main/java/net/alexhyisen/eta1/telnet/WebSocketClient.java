@@ -91,7 +91,9 @@ class WebSocketClient implements Client{
         AsyncTask<Void, Void, Void> shutdownTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                ws.disconnect();
+                if (ws!=null) {
+                    ws.disconnect();
+                }
                 return null;
             }
 
