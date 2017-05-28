@@ -8,10 +8,19 @@
 
     <include layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/textView"
+    <!--the speed of scrolling TextView is not good enough, therefore ScrollView is used.-->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:text="something should not appears." />
+        android:scrollbars="vertical"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            tools:text="something should not appears." />
+    </ScrollView>
 
 </LinearLayout>
