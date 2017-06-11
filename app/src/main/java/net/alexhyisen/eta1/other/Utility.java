@@ -1,6 +1,9 @@
 package net.alexhyisen.eta1.other;
 
+import android.content.Context;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,7 +19,7 @@ import net.alexhyisen.eta1.R;
 
 public class Utility {
     public static void setupEditText(EditText orig, final int IME_ACTION, final MyCallback<TextView> handler) {
-        orig.setOnEditorActionListener((v,actionID,event)->{
+        orig.setOnEditorActionListener((v, actionID, event) -> {
             boolean handled = false;
             if (actionID == IME_ACTION) {
                 handler.accept(v);
@@ -27,7 +30,7 @@ public class Utility {
     }
 
     public static void setupToolbar(ToolbarOwner activity) {
-        setupToolbar(activity,true);
+        setupToolbar(activity, true);
     }
 
     //If you want to enable the up button, the parent of the activity should be declared in manifests.
@@ -36,8 +39,14 @@ public class Utility {
         activity.setSupportActionBar(toolbar);
         if (enableUpButton) {
             ActionBar actionBar = activity.getSupportActionBar();
-            assert actionBar!=null;
+            assert actionBar != null;
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    public static void setupRecyclerView(RecyclerView target, Context ctx, RecyclerView.Adapter adapter) {
+        target.setHasFixedSize(true);
+        target.setLayoutManager(new LinearLayoutManager(ctx));
+        target.setAdapter(adapter);
     }
 }

@@ -37,6 +37,12 @@
             android:label="@string/title_activity_telnet"
             android:parentActivityName=".handshake_with_location.MainActivity" />
         <activity android:name=".other.TextActivity" />
+        <activity android:name=".reader.ReaderActivity" />
+
+        <service
+            android:name=".telnet.TelnetService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

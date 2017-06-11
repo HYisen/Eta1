@@ -1,7 +1,6 @@
 package net.alexhyisen.eta1.telnet;
 
 import android.os.AsyncTask;
-import android.util.Pair;
 
 import net.alexhyisen.eta1.other.MyCallback;
 import net.alexhyisen.eta1.other.msg.Message;
@@ -41,7 +40,7 @@ class TelnetClient implements Client {
         AsyncTask<String, Void, Void> sendTask = new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... params) {
-                System.out.println("send " + content);
+                System.out.println("test " + content);
                 out.println(params[0]);
                 return null;
             }

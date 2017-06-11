@@ -26,6 +26,7 @@ import net.alexhyisen.eta1.R;
 import net.alexhyisen.eta1.other.MyCallback;
 import net.alexhyisen.eta1.other.ToolbarOwner;
 import net.alexhyisen.eta1.other.Utility;
+import net.alexhyisen.eta1.reader.ReaderActivity;
 import net.alexhyisen.eta1.setting.SettingsActivity;
 import net.alexhyisen.eta1.telnet.TelnetActivity;
 
@@ -169,6 +170,9 @@ public class MainActivity extends AppCompatActivity implements MyCallback<String
                 return true;
             case R.id.action_telnet:
                 startActivity(new Intent(this, TelnetActivity.class));
+                return true;
+            case R.id.action_reader:
+                startActivity(new Intent(this, ReaderActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
