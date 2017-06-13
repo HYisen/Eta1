@@ -25,4 +25,22 @@
         android:entries="@array/pref_telnetMode_entries"
         android:entryValues="@array/pref_telnetMode_values"
         android:defaultValue="@string/pref_telnetMode_default" />
+    <EditTextPreference
+        android:capitalize="none"
+        android:defaultValue="@string/pref_default_next_card_font_size"
+        android:inputType="number"
+        android:key="pref_next_card_font_size"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Next Card Font Size" />
+    <EditTextPreference
+        android:capitalize="none"
+        android:defaultValue="@string/pref_default_text_card_font_size"
+        android:inputType="number"
+        android:key="pref_text_card_font_size"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Text Card Font Size" />
 </PreferenceScreen>

@@ -25,6 +25,8 @@ public class SettingFragment extends PreferenceFragment {
         setupEditTextPreferenceSummary("pref_host");
         setupEditTextPreferenceSummary("pref_port");
         setupListPreferenceSummary("pref_telnetMode");
+        setupEditTextPreferenceSummary("pref_next_card_font_size");
+        setupEditTextPreferenceSummary("pref_text_card_font_size");
     }
 
     private void setupEditTextPreferenceSummary(CharSequence key) {

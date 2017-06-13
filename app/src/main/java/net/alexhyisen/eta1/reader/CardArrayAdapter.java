@@ -42,15 +42,20 @@ class CardArrayAdapter extends RecyclerView.Adapter<CardArrayAdapter.CardViewHol
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        holder.text.setText(data.get(position).getText());
+        Card card = data.get(position);
+        Optional<Float> fontSize = card.getFontSize();
+        if (fontSize.isPresent()) {
+            holder.text.setTextSize(fontSize.get());
+        }
+        holder.text.setText(card.getText());
         //I can't use @TextAlignment in args, what else can I do?
         //noinspection WrongConstant
-        holder.text.setTextAlignment(data.get(position).getTextAlignment());
+        holder.text.setTextAlignment(card.getTextAlignment());
 
         holder.itemView.setClickable(false);
         holder.itemView.setLongClickable(false);
 
-        Optional<MyCallback<Void>> handler = data.get(position).getHandler();
+        Optional<MyCallback<Void>> handler = card.getHandler();
 
         if (handler.isPresent()) {
             //It seems as if the replacement of lambda to anonymous class is unstable there.

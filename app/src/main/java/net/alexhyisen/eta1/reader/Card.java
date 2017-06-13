@@ -17,11 +17,15 @@ class Card {
     @Nullable
     private final MyCallback<Void> handler;
     private final int textAlignment;
+    @Nullable
+    private final Float fontSize;
 
-    Card(String text, @Nullable MyCallback<Void> handler, int textAlignment) {
+    Card(String text, @Nullable MyCallback<Void> handler,
+         int textAlignment, @Nullable Float fontSize) {
         this.text = text;
         this.handler = handler;
         this.textAlignment = textAlignment;
+        this.fontSize = fontSize;
     }
 
     public String getText() {
@@ -34,5 +38,9 @@ class Card {
 
     Optional<MyCallback<Void>> getHandler() {
         return Optional.ofNullable(handler);
+    }
+
+    Optional<Float> getFontSize() {
+        return Optional.ofNullable(fontSize);
     }
 }

@@ -4,8 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,9 @@ public class ReaderActivity extends AppCompatActivity {
 
     private TelnetService service;
     private boolean bound = false;
+
+    private static Float nextCardFontSize;
+    private static Float textCardFontSize;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -77,6 +82,10 @@ public class ReaderActivity extends AppCompatActivity {
         super.onStart();
 
         bindService(new Intent(this, TelnetService.class), connection, Context.BIND_AUTO_CREATE);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        nextCardFontSize = Float.parseFloat(sp.getString("pref_next_card_font_size","bad float"));
+        textCardFontSize = Float.parseFloat(sp.getString("pref_text_card_font_size","bad float"));
     }
 
     @Override
@@ -188,7 +197,7 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void addTextCard(String text, MyCallback<Void> handler, int textAlignment) {
-        data.add(new Card(text, handler, textAlignment));
+        data.add(new Card(text, handler, textAlignment,textCardFontSize));
         adapter.notifyDataSetChanged();
     }
 
@@ -197,7 +206,7 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void addNextCard(String text, MyCallback<Void> handler, int textAlignment) {
-        data.add(new Card(text, handler, textAlignment));
+        data.add(new Card(text, handler, textAlignment,nextCardFontSize));
         adapter.notifyDataSetChanged();
     }
 
