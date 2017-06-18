@@ -129,6 +129,10 @@ public class ReaderActivity extends AppCompatActivity {
         data.clear();
         adapter.notifyDataSetChanged();
 
+        addNextCard("reconnect",v->{
+            reconnect();
+            Toast.makeText(this, "link reconnected", Toast.LENGTH_SHORT).show();
+        });
         addNextCard("shelf", v -> retrieve("ls ."));
 
         if (getIntent() != null && "envelope".equals(getIntent().getType())) {
@@ -139,7 +143,7 @@ public class ReaderActivity extends AppCompatActivity {
             switch (envelope.getType()) {
                 case CHAPTER:
                     addTextCard(envelope.getName());
-                    listView.scrollToPosition(2);
+                    listView.scrollToPosition(3);
                     String text = Arrays.stream(data)
                             .map(v -> "        " + v)
                             .collect(Collectors.joining("\n"));
@@ -228,6 +232,10 @@ public class ReaderActivity extends AppCompatActivity {
             }
             service.setHandler(getReportCallback());
         });
+    }
+
+    private void reconnect() {
+        service.reconnect();
     }
 
     @NonNull

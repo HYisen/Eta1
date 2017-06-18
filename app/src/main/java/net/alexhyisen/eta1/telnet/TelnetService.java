@@ -16,7 +16,7 @@ import net.alexhyisen.eta1.other.msg.Message;
 public class TelnetService extends Service implements MyCallback<Message> {
     private final IBinder binder = new TelnetBinder();
 
-    private final Client client = new WebSocketClient(this);
+    private Client client;
 
     //vacuum callback on default
     private MyCallback<Message> handler = v -> {
@@ -34,9 +34,7 @@ public class TelnetService extends Service implements MyCallback<Message> {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        client.link(sp.getString("pref_host", "error_host"),
-                Integer.valueOf(sp.getString("pref_port", "-1")));
+        reconnect();
     }
 
     @Override
@@ -57,6 +55,18 @@ public class TelnetService extends Service implements MyCallback<Message> {
     public String test(String content) {
         Toast.makeText(this, "test " + content, Toast.LENGTH_SHORT).show();
         return "reply of " + content;
+    }
+
+    public void reconnect() {
+        if (client != null) {
+            client.shutdown();
+        }
+
+        client = new WebSocketClient(this);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        client.link(sp.getString("pref_host", "error_host"),
+                Integer.valueOf(sp.getString("pref_port", "-1")));
     }
 
     public void setHandler(MyCallback<Message> handler) {
