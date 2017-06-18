@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ReaderActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
@@ -37,6 +38,7 @@ public class ReaderActivity extends AppCompatActivity {
 
     private static Float nextCardFontSize;
     private static Float textCardFontSize;
+    private static Boolean listOrder;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -84,8 +86,9 @@ public class ReaderActivity extends AppCompatActivity {
         bindService(new Intent(this, TelnetService.class), connection, Context.BIND_AUTO_CREATE);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        nextCardFontSize = Float.parseFloat(sp.getString("pref_next_card_font_size","bad float"));
-        textCardFontSize = Float.parseFloat(sp.getString("pref_text_card_font_size","bad float"));
+        nextCardFontSize = Float.parseFloat(sp.getString("pref_next_card_font_size", "bad float"));
+        textCardFontSize = Float.parseFloat(sp.getString("pref_text_card_font_size", "bad float"));
+        listOrder = sp.getBoolean("pref_list_order", false);
     }
 
     @Override
@@ -129,7 +132,7 @@ public class ReaderActivity extends AppCompatActivity {
         data.clear();
         adapter.notifyDataSetChanged();
 
-        addNextCard("reconnect",v->{
+        addNextCard("reconnect", v -> {
             reconnect();
             Toast.makeText(this, "link reconnected", Toast.LENGTH_SHORT).show();
         });
@@ -155,11 +158,19 @@ public class ReaderActivity extends AppCompatActivity {
                     }
                     break;
                 case BOOK:
+                    addNextCard("move to last", v -> listView.scrollToPosition(adapter.getItemCount()-1));
                     addTextCard(String.format("《%s》", envelope.getName()));
                     String bookId = cmd.substring(3);
-                    for (int i = 0; i < data.length; i++) {
-                        int index = i;
-                        addTextCard(data[i], v -> retrieve("get " + bookId + "." + index));
+                    if (!listOrder) {
+                        for (int i = 0; i < data.length; i++) {
+                            int index = i;
+                            addTextCard(data[i], v -> retrieve("get " + bookId + "." + index));
+                        }
+                    } else {
+                        for (int i = data.length - 1; i > 0; i--) {
+                            int index = i;
+                            addTextCard(data[i], v -> retrieve("get " + bookId + "." + index));
+                        }
                     }
                     break;
                 case SHELF:
@@ -201,7 +212,7 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void addTextCard(String text, MyCallback<Void> handler, int textAlignment) {
-        data.add(new Card(text, handler, textAlignment,textCardFontSize));
+        data.add(new Card(text, handler, textAlignment, textCardFontSize));
         adapter.notifyDataSetChanged();
     }
 
@@ -210,7 +221,7 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void addNextCard(String text, MyCallback<Void> handler, int textAlignment) {
-        data.add(new Card(text, handler, textAlignment,nextCardFontSize));
+        data.add(new Card(text, handler, textAlignment, nextCardFontSize));
         adapter.notifyDataSetChanged();
     }
 

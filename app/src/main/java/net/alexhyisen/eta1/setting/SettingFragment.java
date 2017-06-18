@@ -2,6 +2,7 @@ package net.alexhyisen.eta1.setting;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -27,6 +28,8 @@ public class SettingFragment extends PreferenceFragment {
         setupListPreferenceSummary("pref_telnetMode");
         setupEditTextPreferenceSummary("pref_next_card_font_size");
         setupEditTextPreferenceSummary("pref_text_card_font_size");
+        setupCheckBoxPreferenceSummary("pref_list_order",
+                new String[]{getString(R.string.order_desc), getString(R.string.order_asc)});
     }
 
     private void setupEditTextPreferenceSummary(CharSequence key) {
@@ -49,11 +52,21 @@ public class SettingFragment extends PreferenceFragment {
 
     private void setupListPreferenceSummary(CharSequence key) {
         final ListPreference pref = (ListPreference) getPreferenceManager().findPreference(key);
-        Preference.OnPreferenceChangeListener listener=(preference, newValue) -> {
+        Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
             preference.setSummary(pref.getEntries()[pref.findIndexOfValue((String) newValue)]);
             return true;
         };
         listener.onPreferenceChange(pref, pref.getValue());
+        pref.setOnPreferenceChangeListener(listener);
+    }
+
+    private void setupCheckBoxPreferenceSummary(CharSequence key, String[] summary) {
+        final CheckBoxPreference pref = (CheckBoxPreference) getPreferenceManager().findPreference(key);
+        Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
+            preference.setSummary(summary[newValue.equals(true) ? 0 : 1]);
+            return true;
+        };
+        listener.onPreferenceChange(pref, pref.isChecked());
         pref.setOnPreferenceChangeListener(listener);
     }
 }

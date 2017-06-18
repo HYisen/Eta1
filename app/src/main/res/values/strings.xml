@@ -99,4 +99,7 @@
     <string name="action_reader">Reader</string>
     <string name="pref_default_next_card_font_size">22</string>
     <string name="pref_default_text_card_font_size">14</string>
+    <string name="pref_list_order">Reverse Chapter List Order</string>
+    <string name="order_desc">Descending</string>
+    <string name="order.asc">Ascending</string>
 </resources>

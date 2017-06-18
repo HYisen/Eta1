@@ -19,12 +19,12 @@
         android:singleLine="true"
         android:title="Port number" />
     <ListPreference
-        android:key="pref_telnetMode"
-        android:title="@string/pref_telnetMode"
+        android:defaultValue="@string/pref_telnetMode_default"
         android:dialogTitle="@string/pref_telnetMode"
         android:entries="@array/pref_telnetMode_entries"
         android:entryValues="@array/pref_telnetMode_values"
-        android:defaultValue="@string/pref_telnetMode_default" />
+        android:key="pref_telnetMode"
+        android:title="@string/pref_telnetMode" />
     <EditTextPreference
         android:capitalize="none"
         android:defaultValue="@string/pref_default_next_card_font_size"
@@ -43,4 +43,8 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Text Card Font Size" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_list_order"
+        android:title="@string/pref_list_order" />
 </PreferenceScreen>
