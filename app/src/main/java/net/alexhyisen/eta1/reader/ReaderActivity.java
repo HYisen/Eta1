@@ -39,6 +39,7 @@ public class ReaderActivity extends AppCompatActivity {
     private static Float nextCardFontSize;
     private static Float textCardFontSize;
     private static Boolean listOrder;
+    private static String textIndent;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -89,6 +90,7 @@ public class ReaderActivity extends AppCompatActivity {
         nextCardFontSize = Float.parseFloat(sp.getString("pref_next_card_font_size", "bad float"));
         textCardFontSize = Float.parseFloat(sp.getString("pref_text_card_font_size", "bad float"));
         listOrder = sp.getBoolean("pref_list_order", false);
+        textIndent = sp.getString("pref_text_indent", "$");
     }
 
     @Override
@@ -148,7 +150,7 @@ public class ReaderActivity extends AppCompatActivity {
                     addTextCard(envelope.getName());
                     listView.scrollToPosition(3);
                     String text = Arrays.stream(data)
-                            .map(v -> "        " + v)
+                            .map(v -> textIndent + v)
                             .collect(Collectors.joining("\n"));
                     addTextCard(text, View.TEXT_ALIGNMENT_TEXT_START);
                     //initCard() MUST occur before binding,

@@ -8,7 +8,7 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Host address" />
+        android:title="@string/pref_host" />
     <EditTextPreference
         android:capitalize="none"
         android:defaultValue="@string/pref_default_port"
@@ -17,7 +17,7 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Port number" />
+        android:title="@string/pref_port" />
     <ListPreference
         android:defaultValue="@string/pref_telnetMode_default"
         android:dialogTitle="@string/pref_telnetMode"
@@ -33,7 +33,7 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Next Card Font Size" />
+        android:title="@string/pref_next_card_font_size" />
     <EditTextPreference
         android:capitalize="none"
         android:defaultValue="@string/pref_default_text_card_font_size"
@@ -42,9 +42,18 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Text Card Font Size" />
+        android:title="@string/pref_text_card_font_size" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="pref_list_order"
         android:title="@string/pref_list_order" />
+    <EditTextPreference
+        android:capitalize="none"
+        android:defaultValue="@string/pref_default_indent"
+        android:inputType="text"
+        android:key="pref_text_indent"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_text_indent" />
 </PreferenceScreen>

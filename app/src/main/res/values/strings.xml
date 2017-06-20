@@ -102,4 +102,10 @@
     <string name="pref_list_order">Reverse Chapter List Order</string>
     <string name="order_desc">Descending</string>
     <string name="order.asc">Ascending</string>
+    <string name="pref_default_indent" />
+    <string name="pref_text_card_font_size">Text Card Font Size</string>
+    <string name="pref_next_card_font_size">Next Card Font Size</string>
+    <string name="pref_port">Port number</string>
+    <string name="pref_host">Host address</string>
+    <string name="pref_text_indent">Chapter Card Text Indent</string>
 </resources>
